@@ -122,7 +122,7 @@ public class ExampleSceneLoader extends SceneLoader {
                     // test loading object
                     try {
                         // this has no color array
-                        Object3DData obj51 = Object3DBuilder.loadV5(parent, Uri.parse("assets://assets/models/teapot.obj"));
+                        Object3DData obj51 = Object3DBuilder.loadV5(parent, Uri.parse("assets://assets/models/ship.obj"));
                         obj51.setPosition(new float[] { -2f, 0f, 0f });
                         obj51.setColor(new float[] { 1.0f, 1.0f, 0f, 1.0f });
                         addObject(obj51);
