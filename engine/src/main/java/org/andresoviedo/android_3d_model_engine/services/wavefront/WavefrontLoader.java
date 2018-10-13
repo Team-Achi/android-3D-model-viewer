@@ -567,6 +567,13 @@ public class WavefrontLoader {
 			return new Tuple3(xc, yc, zc);
 		} // end of getCenter()
 
+		public Float[] getCenter3f(){
+			float xc = (rightPt + leftPt) / 2.0f;
+			float yc = (topPt + bottomPt) / 2.0f;
+			float zc = (nearPt + farPt) / 2.0f;
+			return new Float[] {xc, yc, zc};
+		}
+
 		public void reportDimensions() {
 			Tuple3 center = getCenter();
 
