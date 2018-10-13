@@ -20,7 +20,7 @@ News (27/09/2018)
 * New: File chooser to load files from any where
 * New: Load models from app repository
 * New: Externalized 3d engine
-* New: Wiki: https://github.com/andresoviedo/android-3D-model-viewer/wiki
+* New: Wiki: https://github.com/andresoviedo/android-3D-model-viewer/wiki/Documentation
 * Fix: Collada Animator Performance improved
 * Fix: Refactoring
 * Fix: Several bugs fixed
@@ -140,7 +140,7 @@ You can run application in an emulator
 Documentation
 =============
 
-https://github.com/andresoviedo/android-3D-model-viewer/wiki
+https://github.com/andresoviedo/android-3D-model-viewer/wiki/Documentation
 
 
 Final Notes
