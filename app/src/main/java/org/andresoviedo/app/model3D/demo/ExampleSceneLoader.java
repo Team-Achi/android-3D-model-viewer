@@ -49,160 +49,22 @@ public class ExampleSceneLoader extends SceneLoader {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    // 3D Axis
-                    Object3DData axis = Object3DBuilder.buildAxis().setId("axis");
-                    axis.setColor(new float[] { 1.0f, 0, 0, 1.0f });
-                    addObject(axis);
-
-                    // test cube made of arrays
-                    Object3DData obj10 = Object3DBuilder.buildCubeV1();
-                    obj10.setColor(new float[] { 1f, 0f, 0f, 0.5f });
-                    obj10.setPosition(new float[] { -2f, 2f, 0f });
-                    addObject(obj10);
-
-                    // test cube made of wires (I explode it to see the faces better)
-                    Object3DData obj11 = Object3DBuilder.buildCubeV1();
-                    obj11.setColor(new float[] { 1f, 1f, 0f, 0.5f });
-                    obj11.setPosition(new float[] { 0f, 2f, 0f });
-                    obj11.centerAndScaleAndExplode(1.0f, 1.5f);
-                    obj11.setId(obj11.getId() + "_exploded");
-                    addObject(obj11);
-
-                    // test cube made of wires (I explode it to see the faces better)
-                    Object3DData obj12 = Object3DBuilder.buildCubeV1_with_normals();
-                    obj12.setColor(new float[] { 1f, 0f, 0f, 1f });
-                    obj12.setPosition(new float[] { 0f, 0f, -2f });
-                    addObject(obj12);
-
                     // Set up ContentUtils so referenced materials and/or textures could be find
                     ContentUtils.setThreadActivity(parent);
                     ContentUtils.provideAssets(parent);
 
                     // test loading object
-                    /*try {
-                        // this has no color array
-                        Object3DData android = Object3DBuilder.loadV5(parent, Uri.parse("assets://assets/models/android.obj"));
-                        android.setPosition(new float[] { 0f, 0f, 0f });
-                        android.setColor(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
-                        addObject(android);
-                    } catch (Exception ex) {
-                        errors.add(ex);
-                    }*/
-
-                    // test cube made of indices
-                    Object3DData obj20 = Object3DBuilder.buildSquareV2();
-                    obj20.setColor(new float[] { 0f, 1f, 0, 0.25f });
-                    obj20.setPosition(new float[] { 2f, 2f, 0f });
-                    addObject(obj20);
-
-                    // test cube with texture
-                    try {
-                        InputStream open = ContentUtils.getInputStream(Uri.parse("assets://assets/models/penguin.bmp"));
-                        Object3DData obj3 = Object3DBuilder.buildCubeV3(IOUtils.read(open));
-                        open.close();
-                        obj3.setColor(new float[] { 1f, 1f, 1f, 1f });
-                        obj3.setPosition(new float[] { -2f, -2f, 0f });
-                        addObject(obj3);
-                    } catch (Exception ex) {
-                        errors.add(ex);
-                    }
-
-                    // test cube with texture & colors
-                    try {
-                        InputStream open =  ContentUtils.getInputStream(Uri.parse("assets://assets/models/cube.bmp"));
-                        Object3DData obj4 = Object3DBuilder.buildCubeV4(IOUtils.read(open));
-                        open.close();
-                        obj4.setColor(new float[] { 1f, 1f, 1f, 1f });
-                        obj4.setPosition(new float[] { 0f, -2f, 0f });
-                        addObject(obj4);
-                    } catch (Exception ex) {
-                        errors.add(ex);
-                    }
-
-                    // test loading object
                     try {
                         // this has no color array
-                        Object3DData obj51 = Object3DBuilder.loadV5(parent, Uri.parse("assets://assets/models/ship.obj"));
-                        obj51.setPosition(new float[] { -2f, 0f, 0f });
-                        obj51.setColor(new float[] { 1.0f, 1.0f, 0f, 1.0f });
-                        addObject(obj51);
+                        Object3DData box11 = Object3DBuilder.loadV5(parent, Uri.parse("assets://assets/models/good_teeth_box11.obj"));
+                        box11.setPosition(box11.getDimensions().getCenter3f());
+                        box11.setColor(new float[] { 1.0f, 1.0f, 0f, 1.0f });
+                        addObject(box11);
                     } catch (Exception ex) {
                         errors.add(ex);
                     }
 
-                    // test loading object with materials
-                    try {
-                        // this has color array
-                        Object3DData obj52 = Object3DBuilder.loadV5(parent, Uri.parse("assets://assets/models/cube.obj"));
-                        obj52.setPosition(new float[] { 2f, -2f, 0f });
-                        obj52.setColor(new float[] { 0.0f, 1.0f, 1f, 1.0f });
-                        addObject(obj52);
                     } catch (Exception ex) {
-                        errors.add(ex);
-                    }
-
-                    // test loading object made of polygonal faces
-                    try {
-                        // this has heterogeneous faces
-                        Object3DData obj53 = Object3DBuilder.loadV5(parent, Uri.parse("assets://assets/models/ToyPlane.obj"));
-                        obj53.centerAndScale(2.0f);
-                        obj53.setPosition(new float[] { 2f, 0f, 0f });
-                        obj53.setColor(new float[] { 1.0f, 1.0f, 1f, 1.0f });
-                        // obj53.setDrawMode(GLES20.GL_TRIANGLE_FAN);
-                        addObject(obj53);
-                    } catch (Exception ex) {
-                        errors.add(ex);
-                    }
-
-                    // test loading object without normals
-                    /*try {
-                        Object3DData obj = Object3DBuilder.loadV5(parent, Uri.parse("assets://assets/models/cube4.obj"));
-                        obj.setPosition(new float[] { 0f, 2f, -2f });
-                        obj.setColor(new float[] { 0.3f, 0.52f, 1f, 1.0f });
-                        addObject(obj);
-                    } catch (Exception ex) {
-                        errors.add(ex);
-                    }*/
-
-                    /*// test loading collada object
-					try {
-						// this has heterogeneous faces
-						new ColladaLoaderTask(parent, Uri.parse("assets://org.andresoviedo" +
-                                ".dddmodel2/assets/models/cowboy.dae"), new LoaderTask.Callback() {
-                            @Override
-                            public void onStart() {
-                                // Set up ContentUtils so referenced materials and/or textures could be find
-                                ContentUtils.setThreadActivity(parent);
-                                ContentUtils.provideAssets(parent);
-                            }
-
-                            @Override
-                            public void onLoadError(Exception ex) {
-                                ContentUtils.setThreadActivity(null);
-                                ContentUtils.clearDocumentsProvided();
-                            }
-
-                            @Override
-                            public void onLoadComplete(List<Object3DData> data) {
-
-                            }
-
-                            @Override
-                            public void onLoadComplete(List<Object3DData> data) {
-                                for (Object3DData d : data) {
-                                    d.centerAndScale(4, new float[]{0, 0, -2});
-                                    addObject(d);
-                                }
-                                ContentUtils.setThreadActivity(null);
-                                ContentUtils.clearDocumentsProvided();
-                            }
-                        }).execute();
-
-					} catch (Exception ex) {
-                        Log.e("Example",ex.getMessage(),ex);
-						errors.add(ex);
-					}*/
-                } catch (Exception ex) {
                     errors.add(ex);
                 } finally{
                     ContentUtils.setThreadActivity(null);
