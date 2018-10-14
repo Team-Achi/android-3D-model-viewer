@@ -64,11 +64,6 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 	private boolean infoLogged = false;
 
 	/**
-	 * Skeleton Animator
-	 */
-	private Animator animator = new Animator();
-
-	/**
 	 * Construct a new renderer for the specified surface view
 	 *
 	 * @param modelSurfaceView
@@ -199,69 +194,15 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 					lightBulbDrawer.draw(objData,modelProjectionMatrix, modelViewMatrix, GLES20.GL_POINTS,lightPosInEyeSpace);
 				} else if (scene.isAnaglyph()){
 				// TODO: implement anaglyph
-				} else if (scene.isDrawWireframe() && objData.getDrawMode() != GLES20.GL_POINTS
-						&& objData.getDrawMode() != GLES20.GL_LINES && objData.getDrawMode() != GLES20.GL_LINE_STRIP
-						&& objData.getDrawMode() != GLES20.GL_LINE_LOOP) {
-					// Log.d("ModelRenderer","Drawing wireframe model...");
-					try{
-						// Only draw wireframes for objects having faces (triangles)
-						Object3DData wireframe = wireframes.get(objData);
-						if (wireframe == null || changed) {
-							Log.i("ModelRenderer","Generating wireframe model...");
-							wireframe = Object3DBuilder.buildWireframe(objData);
-							wireframes.put(objData, wireframe);
-						}
-						drawerObject.draw(wireframe,modelProjectionMatrix,modelViewMatrix,wireframe.getDrawMode(),
-								wireframe.getDrawSize(),textureId != null? textureId:-1, lightPosInEyeSpace);
-					}catch(Error e){
-						Log.e("ModelRenderer",e.getMessage(),e);
-					}
 				} else if (scene.isDrawPoints() || objData.getFaces() == null || !objData.getFaces().loaded()){
 					drawerObject.draw(objData, modelProjectionMatrix, modelViewMatrix
 							,GLES20.GL_POINTS, objData.getDrawSize(),
 							textureId != null ? textureId : -1, lightPosInEyeSpace);
-				} else if (scene.isDrawSkeleton() && objData instanceof AnimatedModel && ((AnimatedModel) objData)
-						.getAnimation() != null){
-					Object3DData skeleton = this.skeleton.get(objData);
-					if (skeleton == null){
-						skeleton = Object3DBuilder.buildSkeleton((AnimatedModel) objData);
-						this.skeleton.put(objData, skeleton);
-					}
-					animator.update(skeleton);
-					drawerObject = drawer.getDrawer(skeleton, false, scene.isDrawLighting(), scene
-                            .isDrawAnimation());
-					drawerObject.draw(skeleton, modelProjectionMatrix, modelViewMatrix,-1, lightPosInEyeSpace);
 				} else {
 					drawerObject.draw(objData, modelProjectionMatrix, modelViewMatrix,
 							textureId != null ? textureId : -1, lightPosInEyeSpace);
 				}
 
-				// Draw bounding box
-				if (scene.isDrawBoundingBox() || scene.getSelectedObject() == objData) {
-					Object3DData boundingBoxData = boundingBoxes.get(objData);
-					if (boundingBoxData == null || changed) {
-						boundingBoxData = Object3DBuilder.buildBoundingBox(objData);
-						boundingBoxes.put(objData, boundingBoxData);
-					}
-					Object3D boundingBoxDrawer = drawer.getBoundingBoxDrawer();
-					boundingBoxDrawer.draw(boundingBoxData, modelProjectionMatrix, modelViewMatrix, -1, null);
-				}
-
-				// Draw normals
-				if (scene.isDrawNormals()) {
-					Object3DData normalData = normals.get(objData);
-					if (normalData == null || changed) {
-						normalData = Object3DBuilder.buildFaceNormals(objData);
-						if (normalData != null) {
-							// it can be null if object isnt made of triangles
-							normals.put(objData, normalData);
-						}
-					}
-					if (normalData != null) {
-						Object3D normalsDrawer = drawer.getFaceNormalsDrawer();
-						normalsDrawer.draw(normalData, modelProjectionMatrix, modelViewMatrix, -1, null);
-					}
-				}
 				// TODO: enable this only when user wants it
 				// obj3D.drawVectorNormals(result, modelViewMatrix);
 			} catch (Exception ex) {
@@ -270,19 +211,4 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 		}
 	}
 
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public float[] getModelProjectionMatrix() {
-		return modelProjectionMatrix;
-	}
-
-	public float[] getModelViewMatrix() {
-		return modelViewMatrix;
-	}
 }

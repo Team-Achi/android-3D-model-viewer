@@ -50,8 +50,6 @@ public class ModelActivity extends Activity {
 
     private SceneLoader scene;
 
-    private Handler handler;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,8 +74,6 @@ public class ModelActivity extends Activity {
         }
         Log.i("Renderer", "Params: uri '" + paramUri + "'");
 
-        handler = new Handler(getMainLooper());
-
         // Create our 3D sceneario
 
         scene = new SceneLoader(this);
@@ -98,21 +94,6 @@ public class ModelActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.model_toggle_wireframe:
-                scene.toggleWireframe();
-                break;
-            case R.id.model_toggle_boundingbox:
-                scene.toggleBoundingBox();
-                break;
-            case R.id.model_toggle_textures:
-                scene.toggleTextures();
-                break;
-            case R.id.model_toggle_animation:
-                scene.toggleAnimation();
-                break;
-            case R.id.model_toggle_collision:
-                scene.toggleCollision();
-                break;
             case R.id.model_toggle_lights:
                 scene.toggleLighting();
                 break;
@@ -129,57 +110,8 @@ public class ModelActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void hideSystemUIDelayed(long millis) {
-        handler.postDelayed(this::hideSystemUI, millis);
-    }
-
-    private void hideSystemUI() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            hideSystemUIKitKat();
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            hideSystemUIJellyBean();
-        }
-    }
-
-    // This snippet hides the system bars.
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    private void hideSystemUIKitKat() {
-        // Set the IMMERSIVE flag.
-        // Set the content to appear under the system bars so that the content
-        // doesn't resize when the system bars hide and show.
-        final View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                | View.SYSTEM_UI_FLAG_IMMERSIVE);
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    private void hideSystemUIJellyBean() {
-        final View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LOW_PROFILE);
-    }
-
-    // This snippet shows the system bars. It does this by removing all the flags
-    // except for the ones that make the content appear under the system bars.
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    private void showSystemUI() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            return;
-        }
-        final View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-    }
-
     public Uri getParamUri() {
         return paramUri;
-    }
-
-    public int getParamType() {
-        return paramType;
     }
 
     public float[] getBackgroundColor() {
@@ -205,16 +137,7 @@ public class ModelActivity extends Activity {
                 final Uri uri = data.getData();
                 if (uri != null) {
                     Log.i("ModelActivity", "Loading texture '" + uri + "'");
-                    try {
-                        ContentUtils.setThreadActivity(this);
-                        scene.loadTexture(null, uri);
-                    } catch (IOException ex) {
-                        Log.e("ModelActivity", "Error loading texture: " + ex.getMessage(), ex);
-                        Toast.makeText(this, "Error loading texture '" + uri + "'. " + ex
-                                .getMessage(), Toast.LENGTH_LONG).show();
-                    } finally {
-                        ContentUtils.setThreadActivity(null);
-                    }
+                    ContentUtils.setThreadActivity(this);
                 }
         }
     }

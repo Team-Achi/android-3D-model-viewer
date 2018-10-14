@@ -171,7 +171,7 @@ public class SceneLoader implements LoaderTask.Callback {
             return;
         }
     }
-    
+
     public Camera getCamera() {
         return camera;
     }
@@ -240,41 +240,8 @@ public class SceneLoader implements LoaderTask.Callback {
         return objects;
     }
 
-    public void toggleWireframe() {
-        if (this.drawWireframe && !this.drawingPoints) {
-            this.drawWireframe = false;
-            this.drawingPoints = true;
-        } else if (this.drawingPoints) {
-            this.drawingPoints = false;
-        } else {
-            this.drawWireframe = true;
-        }
-        requestRender();
-    }
-
-    public boolean isDrawWireframe() {
-        return this.drawWireframe;
-    }
-
     public boolean isDrawPoints() {
         return this.drawingPoints;
-    }
-
-    public void toggleBoundingBox() {
-        this.drawBoundingBox = !drawBoundingBox;
-        requestRender();
-    }
-
-    public boolean isDrawBoundingBox() {
-        return drawBoundingBox;
-    }
-
-    public boolean isDrawNormals() {
-        return drawNormals;
-    }
-
-    public void toggleTextures() {
-        this.drawTextures = !drawTextures;
     }
 
     public void toggleLighting() {
@@ -289,23 +256,8 @@ public class SceneLoader implements LoaderTask.Callback {
         requestRender();
     }
 
-    public void toggleAnimation() {
-        if (animateModel && !drawSkeleton){
-            this.drawSkeleton = true;
-        } else if (animateModel){
-            this.drawSkeleton = false;
-            this.animateModel = false;
-        } else {
-            animateModel = true;
-        }
-    }
-
     public boolean isDrawAnimation() {
         return animateModel;
-    }
-
-    public void toggleCollision() {
-        this.isCollision = !isCollision;
     }
 
     public boolean isDrawTextures() {
@@ -314,14 +266,6 @@ public class SceneLoader implements LoaderTask.Callback {
 
     public boolean isDrawLighting() {
         return drawLighting;
-    }
-
-    public boolean isDrawSkeleton() {
-        return drawSkeleton;
-    }
-
-    public boolean isCollision() {
-        return isCollision;
     }
 
     public boolean isAnaglyph() {
@@ -365,52 +309,4 @@ public class SceneLoader implements LoaderTask.Callback {
         Log.e("SceneLoader", ex.getMessage(), ex);
         ContentUtils.setThreadActivity(null);
     }
-
-    public Object3DData getSelectedObject() {
-        return selectedObject;
-    }
-
-    private void setSelectedObject(Object3DData selectedObject) {
-        this.selectedObject = selectedObject;
-    }
-
-    public void loadTexture(Object3DData obj, Uri uri) throws IOException {
-        if (obj == null && objects.size() != 1) {
-            return;
-        }
-        obj = obj != null ? obj : objects.get(0);
-        obj.setTextureData(IOUtils.read(ContentUtils.getInputStream(uri)));
-        this.drawTextures = true;
-    }
-
-    public void processTouch(float x, float y) {
-        ModelRenderer mr = parent.getGLView().getModelRenderer();
-        Object3DData objectToSelect = CollisionDetection.getBoxIntersection(getObjects(), mr.getWidth(), mr.getHeight
-                (), mr.getModelViewMatrix(), mr.getModelProjectionMatrix(), x, y);
-        if (objectToSelect != null) {
-            if (getSelectedObject() == objectToSelect) {
-                Log.i("SceneLoader", "Unselected object " + objectToSelect.getId());
-                setSelectedObject(null);
-            } else {
-                Log.i("SceneLoader", "Selected object " + objectToSelect.getId());
-                setSelectedObject(objectToSelect);
-            }
-            if (isCollision()) {
-                Log.d("SceneLoader", "Detecting collision...");
-
-                float[] point = CollisionDetection.getTriangleIntersection(getObjects(), mr.getWidth(), mr.getHeight
-                        (), mr.getModelViewMatrix(), mr.getModelProjectionMatrix(), x, y);
-                if (point != null) {
-                    Log.i("SceneLoader", "Drawing intersection point: " + Arrays.toString(point));
-                    addObject(Object3DBuilder.buildPoint(point).setColor(new float[]{1.0f, 0f, 0f, 1f}));
-                }
-            }
-        }
-    }
-
-    public void processMove(float dx1, float dy1) {
-        userHasInteracted = true;
-    }
-
-
 }
