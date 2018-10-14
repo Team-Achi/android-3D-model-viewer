@@ -141,16 +141,4 @@ public final class BoundingBox {
         return false;
     }
 
-    @Override
-    public String toString() {
-        return "BoundingBoxBuilder{" +
-                "id='" + id + '\'' +
-                ", xMin=" + xMin +
-                ", xMax=" + xMax +
-                ", yMin=" + yMin +
-                ", yMax=" + yMax +
-                ", zMin=" + zMin +
-                ", zMax=" + zMax +
-                '}';
-    }
 }
