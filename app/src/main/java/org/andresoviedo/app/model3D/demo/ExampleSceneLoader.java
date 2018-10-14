@@ -55,27 +55,11 @@ public class ExampleSceneLoader extends SceneLoader {
 
                     // test loading object
                     try {
-//						Object3DData box11 = Object3DBuilder.loadV5(parent, Uri.parse("assets://assets/models/" + "teeth11.obj"));
-////						box11.setPosition(new float[] {-0.19836f-0.35060f, -0.92233f+0.58425f, 0.72852f+0.40594f});
-//						box11.setColor(new float[]{1.0f, 1.0f, 1.0f, 1.0f});
-//						addObject(box11);
-//
-//						Object3DData box1 = Object3DBuilder.loadV5(parent, Uri.parse("assets://assets/models/" + "teeth21.obj"));
-////						box1.setPosition(new float[] {0.14296f+0.35910f, -0.92724f+0.59517f, 0.72667f+0.37280f});
-//						box1.setColor(new float[]{1.0f, 1.0f, 1.0f, 1.0f});
-//						addObject(box1);
-
-//						addNewObject("teeth11_centered.obj");
-//						addNewObject("teeth21_centered.obj");
-
                         String fileName;
                         for (int i = 11; i < 47; i++) {
                             fileName = new String("teeth" + i + ".obj");
                             addNewObject(fileName);
                         }
-//                        addNewObject("gum_lower.obj");
-//                        addNewObject("gum_upper.obj");
-//                        addNewObject("tongue.obj");
 						addNewObject("gum_and_tongue.obj");
                     } catch (Exception ex) {
                         errors.add(ex);
@@ -93,9 +77,7 @@ public class ExampleSceneLoader extends SceneLoader {
             private void addNewObject(String name) {
 			    try {
                     Object3DData box11 = Object3DBuilder.loadV5(parent, Uri.parse("assets://assets/models/" + name));
-//                    box11.setPosition(box11.getDimensions().getCenter3f());
                     float[] a = box11.getDimensions().getCenter3f();
-//                    Log.i("SUSAN", "name: " + name + "\tcenter:" + a[0] + " " + a[1] + " " + a[2]);
                     box11.setColor(new float[]{1.0f, 1.0f, 1.0f, 1.0f});
                     addObject(box11);
                 } catch (Exception e) {
