@@ -769,32 +769,32 @@ public class Object3DData {
 	 */
 	{
 		// calculate a scale factor
-		float scaleFactor = 1.0f;
-		float largest = modelDimensions.getLargest();
-		// System.out.println("Largest dimension: " + largest);
-		if (largest != 0.0f)
-			scaleFactor = (1.0f / largest);
-		Log.i("Object3DData","Scaling model with factor: " + scaleFactor+". Largest: "+largest);
-
-		// get the model's center point
-		Tuple3 center = modelDimensions.getCenter();
-		Log.i("Object3DData","Objects actual position: " + center.toString());
-
-		// modify the model's vertices
-		float x0, y0, z0;
-		float x, y, z;
-		FloatBuffer vertexBuffer = getVertexBuffer() != null? getVertexBuffer() : getVertexArrayBuffer();
-		for (int i = 0; i < vertexBuffer.capacity()/3; i++) {
-			x0 = vertexBuffer.get(i*3);
-			y0 = vertexBuffer.get(i*3+1);
-			z0 = vertexBuffer.get(i*3+2);
-			x = (x0 - center.getX()) * scaleFactor;
-			vertexBuffer.put(i*3,x);
-			y = (y0 - center.getY()) * scaleFactor;
-			vertexBuffer.put(i*3+1,y);
-			z = (z0 - center.getZ()) * scaleFactor;
-			vertexBuffer.put(i*3+2,z);
-		}
+//		float scaleFactor = 1.0f;
+//		float largest = modelDimensions.getLargest();
+//		// System.out.println("Largest dimension: " + largest);
+//		if (largest != 0.0f)
+//			scaleFactor = (1.0f / largest);
+//		Log.i("Object3DData","Scaling model with factor: " + scaleFactor+". Largest: "+largest);
+//
+//		// get the model's center point
+//		Tuple3 center = modelDimensions.getCenter();
+//		Log.i("Object3DData","Objects actual position: " + center.toString());
+//
+//		// modify the model's vertices
+//		float x0, y0, z0;
+//		float x, y, z;
+//		FloatBuffer vertexBuffer = getVertexBuffer() != null? getVertexBuffer() : getVertexArrayBuffer();
+//		for (int i = 0; i < vertexBuffer.capacity()/3; i++) {
+//			x0 = vertexBuffer.get(i*3);
+//			y0 = vertexBuffer.get(i*3+1);
+//			z0 = vertexBuffer.get(i*3+2);
+//			x = (x0 - center.getX()) * scaleFactor;
+//			vertexBuffer.put(i*3,x);
+//			y = (y0 - center.getY()) * scaleFactor;
+//			vertexBuffer.put(i*3+1,y);
+//			z = (z0 - center.getZ()) * scaleFactor;
+//			vertexBuffer.put(i*3+2,z);
+//		}
 	} // end of centerScale()
 
     public void addError(String error) {
