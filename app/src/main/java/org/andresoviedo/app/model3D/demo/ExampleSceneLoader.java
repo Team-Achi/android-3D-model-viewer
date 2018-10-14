@@ -98,9 +98,6 @@ public class ExampleSceneLoader extends SceneLoader {
 //                    Log.i("SUSAN", "name: " + name + "\tcenter:" + a[0] + " " + a[1] + " " + a[2]);
                     box11.setColor(new float[]{1.0f, 1.0f, 1.0f, 1.0f});
                     addObject(box11);
-
-                    if(name.equals("gum_and_tongue.obj"))
-                    	box11.setScale(new float[] {2.7f, 2.7f, 2.7f});
                 } catch (Exception e) {
 			        return;
                 }
