@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import org.andresoviedo.app.model3D.demo.ExampleSceneLoader;
 import org.andresoviedo.app.model3D.demo.SceneLoader;
 import org.andresoviedo.util.android.ContentUtils;
 import org.andresoviedo.dddmodel2.R;
@@ -81,7 +80,7 @@ public class ModelActivity extends Activity {
 
         // Create our 3D sceneario
         if (paramUri == null) {
-            scene = new ExampleSceneLoader(this);
+//            scene = new ExampleSceneLoader(this);
         } else {
             scene = new SceneLoader(this);
         }

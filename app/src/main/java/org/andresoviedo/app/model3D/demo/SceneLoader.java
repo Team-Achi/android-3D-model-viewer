@@ -1,5 +1,6 @@
 package org.andresoviedo.app.model3D.demo;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.util.Log;
@@ -131,25 +132,61 @@ public class SceneLoader implements LoaderTask.Callback {
         }
 
         startTime = SystemClock.uptimeMillis();
-        Uri uri = parent.getParamUri();
-        Log.i("Object3DBuilder", "Loading model " + uri + ". async and parallel..");
-        if (uri.toString().toLowerCase().endsWith(".obj") || parent.getParamType() == 0) {
-            new WavefrontLoaderTask(parent, uri, this).execute();
-        } else if (uri.toString().toLowerCase().endsWith(".stl") || parent.getParamType() == 1) {
-            Log.i("Object3DBuilder", "Loading STL object from: "+uri);
-            new STLLoaderTask(parent, uri, this).execute();
-        } else if (uri.toString().toLowerCase().endsWith(".dae") || parent.getParamType() == 2) {
-            Log.i("Object3DBuilder", "Loading Collada object from: "+uri);
-            new ColladaLoaderTask(parent, uri, this).execute();
+//        Uri uri = parent.getParamUri();
+//        Log.i("Object3DBuilder", "Loading model " + uri + ". async and parallel..");
+//        if (uri.toString().toLowerCase().endsWith(".obj") || parent.getParamType() == 0) {
+//            new WavefrontLoaderTask(parent, uri, this).execute();
+//        } else if (uri.toString().toLowerCase().endsWith(".stl") || parent.getParamType() == 1) {
+//            Log.i("Object3DBuilder", "Loading STL object from: "+uri);
+//            new STLLoaderTask(parent, uri, this).execute();
+//        } else if (uri.toString().toLowerCase().endsWith(".dae") || parent.getParamType() == 2) {
+//            Log.i("Object3DBuilder", "Loading Collada object from: "+uri);
+//            new ColladaLoaderTask(parent, uri, this).execute();
+//        }
+
+        ProgressDialog dialog = new ProgressDialog(parent);
+        List<Exception> errors = new ArrayList<>();
+
+        try {
+            // Set up ContentUtils so referenced materials and/or textures could be find
+            ContentUtils.setThreadActivity(parent);
+            ContentUtils.provideAssets(parent);
+
+            // test loading object
+            try {
+                String fileName;
+                for (int i = 11; i < 47; i++) {
+                    fileName = new String("teeth" + i + ".obj");
+                    addNewObject(fileName);
+                }
+                addNewObject("gum_and_tongue.obj");
+            } catch (Exception ex) {
+                errors.add(ex);
+            }
+
+        } catch (Exception ex) {
+            errors.add(ex);
+        } finally{
+            ContentUtils.setThreadActivity(null);
+            ContentUtils.clearDocumentsProvided();
+        }
+
+    }
+
+    private void addNewObject(String name) {
+        try {
+            Object3DData box11 = Object3DBuilder.loadV5(parent, Uri.parse("assets://assets/models/" + name));
+            float[] a = box11.getDimensions().getCenter3f();
+            box11.setColor(new float[]{1.0f, 1.0f, 1.0f, 1.0f});
+            addObject(box11);
+        } catch (Exception e) {
+            return;
         }
     }
 
+
     public Camera getCamera() {
         return camera;
-    }
-
-    private void makeToastText(final String text, final int toastDuration) {
-        parent.runOnUiThread(() -> Toast.makeText(parent.getApplicationContext(), text, toastDuration).show());
     }
 
     public Object3DData getLightBulb() {
@@ -220,12 +257,9 @@ public class SceneLoader implements LoaderTask.Callback {
         if (this.drawWireframe && !this.drawingPoints) {
             this.drawWireframe = false;
             this.drawingPoints = true;
-            makeToastText("Points", Toast.LENGTH_SHORT);
         } else if (this.drawingPoints) {
             this.drawingPoints = false;
-            makeToastText("Faces", Toast.LENGTH_SHORT);
         } else {
-            makeToastText("Wireframe", Toast.LENGTH_SHORT);
             this.drawWireframe = true;
         }
         requestRender();
@@ -254,20 +288,16 @@ public class SceneLoader implements LoaderTask.Callback {
 
     public void toggleTextures() {
         this.drawTextures = !drawTextures;
-        makeToastText("Textures "+this.drawTextures, Toast.LENGTH_SHORT);
     }
 
     public void toggleLighting() {
         if (this.drawLighting && this.rotatingLight) {
             this.rotatingLight = false;
-            makeToastText("Light stopped", Toast.LENGTH_SHORT);
         } else if (this.drawLighting && !this.rotatingLight) {
             this.drawLighting = false;
-            makeToastText("Lights off", Toast.LENGTH_SHORT);
         } else {
             this.drawLighting = true;
             this.rotatingLight = true;
-            makeToastText("Light on", Toast.LENGTH_SHORT);
         }
         requestRender();
     }
@@ -275,14 +305,11 @@ public class SceneLoader implements LoaderTask.Callback {
     public void toggleAnimation() {
         if (animateModel && !drawSkeleton){
             this.drawSkeleton = true;
-            makeToastText("Skeleton on", Toast.LENGTH_SHORT);
         } else if (animateModel){
             this.drawSkeleton = false;
             this.animateModel = false;
-            makeToastText("Animation off", Toast.LENGTH_SHORT);
         } else {
             animateModel = true;
-            makeToastText("Animation on", Toast.LENGTH_SHORT);
         }
     }
 
@@ -292,7 +319,6 @@ public class SceneLoader implements LoaderTask.Callback {
 
     public void toggleCollision() {
         this.isCollision = !isCollision;
-        makeToastText("Collisions: "+isCollision, Toast.LENGTH_SHORT);
     }
 
     public boolean isDrawTextures() {
@@ -342,17 +368,14 @@ public class SceneLoader implements LoaderTask.Callback {
             allErrors.addAll(data.getErrors());
         }
         if (!allErrors.isEmpty()){
-            makeToastText(allErrors.toString(), Toast.LENGTH_LONG);
         }
         final String elapsed = (SystemClock.uptimeMillis() - startTime) / 1000 + " secs";
-        makeToastText("Build complete (" + elapsed + ")", Toast.LENGTH_LONG);
         ContentUtils.setThreadActivity(null);
     }
 
     @Override
     public void onLoadError(Exception ex) {
         Log.e("SceneLoader", ex.getMessage(), ex);
-        makeToastText("There was a problem building the model: " + ex.getMessage(), Toast.LENGTH_LONG);
         ContentUtils.setThreadActivity(null);
     }
 
@@ -366,7 +389,6 @@ public class SceneLoader implements LoaderTask.Callback {
 
     public void loadTexture(Object3DData obj, Uri uri) throws IOException {
         if (obj == null && objects.size() != 1) {
-            makeToastText("Unavailable", Toast.LENGTH_SHORT);
             return;
         }
         obj = obj != null ? obj : objects.get(0);
