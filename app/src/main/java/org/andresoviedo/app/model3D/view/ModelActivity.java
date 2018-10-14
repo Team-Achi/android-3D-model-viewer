@@ -79,11 +79,8 @@ public class ModelActivity extends Activity {
         handler = new Handler(getMainLooper());
 
         // Create our 3D sceneario
-        if (paramUri == null) {
-//            scene = new ExampleSceneLoader(this);
-        } else {
-            scene = new SceneLoader(this);
-        }
+
+        scene = new SceneLoader(this);
         scene.init();
 
         // Create a GLSurfaceView instance and set it
@@ -91,55 +88,11 @@ public class ModelActivity extends Activity {
         gLView = new ModelSurfaceView(this);
         setContentView(gLView);
 
-        // Show the Up button in the action bar.
-        setupActionBar();
+//        // Show the Up button in the action bar.
+//        setupActionBar();
 
         // TODO: Alert user when there is no multitouch support (2 fingers). He won't be able to rotate or zoom
         ContentUtils.printTouchCapabilities(getPackageManager());
-
-        setupOnSystemVisibilityChangeListener();
-    }
-
-    /**
-     * Set up the {@link android.app.ActionBar}, if the API is available.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void setupActionBar() {
-        // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-        // getActionBar().setDisplayHomeAsUpEnabled(true);
-        // }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.model, menu);
-        return true;
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    private void setupOnSystemVisibilityChangeListener() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            return;
-        }
-        getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(visibility -> {
-            // Note that system bars will only be "visible" if none of the
-            // LOW_PROFILE, HIDE_NAVIGATION, or FULLSCREEN flags are set.
-            if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
-                // The system bars are visible. Make any desired
-                if (immersiveMode) hideSystemUIDelayed(5000);
-            }
-        });
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                if (immersiveMode) hideSystemUIDelayed(5000);
-            }
-        }
     }
 
     @Override

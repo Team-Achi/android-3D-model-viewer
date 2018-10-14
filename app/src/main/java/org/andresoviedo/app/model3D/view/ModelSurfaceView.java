@@ -37,10 +37,10 @@ public class ModelSurfaceView extends GLSurfaceView {
 		touchHandler = new TouchController(this, mRenderer);
 	}
 
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		return touchHandler.onTouchEvent(event);
-	}
+//	@Override
+//	public boolean onTouchEvent(MotionEvent event) {
+//		return touchHandler.onTouchEvent(event);
+//	}
 
 	public ModelActivity getModelActivity() {
 		return parent;
