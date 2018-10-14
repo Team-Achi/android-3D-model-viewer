@@ -15,7 +15,6 @@ public class ModelSurfaceView extends GLSurfaceView {
 
 	private ModelActivity parent;
 	private ModelRenderer mRenderer;
-	private TouchController touchHandler;
 
 	public ModelSurfaceView(ModelActivity parent) {
 		super(parent);
@@ -33,8 +32,6 @@ public class ModelSurfaceView extends GLSurfaceView {
 		// Render the view only when there is a change in the drawing data
 		// TODO: enable this?
 		// setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
-
-		touchHandler = new TouchController(this, mRenderer);
 	}
 
 //	@Override

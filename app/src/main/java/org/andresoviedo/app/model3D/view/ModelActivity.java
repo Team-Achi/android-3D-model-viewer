@@ -44,7 +44,7 @@ public class ModelActivity extends Activity {
     /**
      * Background GL clear color. Default is light gray
      */
-    private float[] backgroundColor = new float[]{0.2f, 0.2f, 0.2f, 1.0f};
+    private float[] backgroundColor = new float[]{1.0f, 1.0f, 1.0f, 1.0f};
 
     private ModelSurfaceView gLView;
 
@@ -62,15 +62,7 @@ public class ModelActivity extends Activity {
             }
             this.paramType = b.getString("type") != null ? Integer.parseInt(b.getString("type")) : -1;
             this.immersiveMode = "true".equalsIgnoreCase(b.getString("immersiveMode"));
-            try {
-                String[] backgroundColors = b.getString("backgroundColor").split(" ");
-                backgroundColor[0] = Float.parseFloat(backgroundColors[0]);
-                backgroundColor[1] = Float.parseFloat(backgroundColors[1]);
-                backgroundColor[2] = Float.parseFloat(backgroundColors[2]);
-                backgroundColor[3] = Float.parseFloat(backgroundColors[3]);
-            } catch (Exception ex) {
-                // Assuming default background color
-            }
+
         }
         Log.i("Renderer", "Params: uri '" + paramUri + "'");
 
