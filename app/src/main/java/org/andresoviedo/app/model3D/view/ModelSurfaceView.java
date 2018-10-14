@@ -1,7 +1,6 @@
 package org.andresoviedo.app.model3D.view;
 
 import android.opengl.GLSurfaceView;
-import android.view.MotionEvent;
 
 
 /**

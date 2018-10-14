@@ -2,23 +2,18 @@ package org.andresoviedo.app.model3D.view;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import org.andresoviedo.app.model3D.demo.SceneLoader;
 import org.andresoviedo.util.android.ContentUtils;
 import org.andresoviedo.dddmodel2.R;
-
-import java.io.IOException;
 
 /**
  * This activity represents the container for our 3D viewer.
