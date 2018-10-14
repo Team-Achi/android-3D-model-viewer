@@ -132,18 +132,6 @@ public class SceneLoader implements LoaderTask.Callback {
         }
 
         startTime = SystemClock.uptimeMillis();
-//        Uri uri = parent.getParamUri();
-//        Log.i("Object3DBuilder", "Loading model " + uri + ". async and parallel..");
-//        if (uri.toString().toLowerCase().endsWith(".obj") || parent.getParamType() == 0) {
-//            new WavefrontLoaderTask(parent, uri, this).execute();
-//        } else if (uri.toString().toLowerCase().endsWith(".stl") || parent.getParamType() == 1) {
-//            Log.i("Object3DBuilder", "Loading STL object from: "+uri);
-//            new STLLoaderTask(parent, uri, this).execute();
-//        } else if (uri.toString().toLowerCase().endsWith(".dae") || parent.getParamType() == 2) {
-//            Log.i("Object3DBuilder", "Loading Collada object from: "+uri);
-//            new ColladaLoaderTask(parent, uri, this).execute();
-//        }
-
         ProgressDialog dialog = new ProgressDialog(parent);
         List<Exception> errors = new ArrayList<>();
 
@@ -183,8 +171,7 @@ public class SceneLoader implements LoaderTask.Callback {
             return;
         }
     }
-
-
+    
     public Camera getCamera() {
         return camera;
     }
