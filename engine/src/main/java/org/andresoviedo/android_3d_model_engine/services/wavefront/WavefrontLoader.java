@@ -173,6 +173,7 @@ public class WavefrontLoader {
 
 					if (line.startsWith("v ")) { // vertex
 						numVerts++;
+						modelDims.addNumVerts();
 					} else if (line.startsWith("vt")) { // tex coord
 						numTextures++;
 					} else if (line.startsWith("vn")) {// normal
@@ -489,6 +490,12 @@ public class WavefrontLoader {
 		public float topPt, bottomPt; // on y-axis
 		public float farPt, nearPt; // on z-axis
 
+		public float centerX;
+		public float centerY;
+		public float centerZ;
+
+		public int numVerts;
+
 		// for reporting
 		private DecimalFormat df = new DecimalFormat("0.##"); // 2 dp
 
@@ -499,6 +506,8 @@ public class WavefrontLoader {
 			bottomPt = 0.0f;
 			farPt = 0.0f;
 			nearPt = 0.0f;
+
+			numVerts = 0;
 		} // end of ModelDimensions()
 
 		public void set(float x, float y, float z)
@@ -512,6 +521,10 @@ public class WavefrontLoader {
 
 			nearPt = z;
 			farPt = z;
+
+			centerX = x;
+			centerY = y;
+			centerZ = z;
 		} // end of set()
 
 		public void update(float x, float y, float z)
@@ -531,6 +544,10 @@ public class WavefrontLoader {
 				nearPt = z;
 			if (z < farPt)
 				farPt = z;
+
+			centerX += x;
+			centerY += y;
+			centerZ += z;
 		} // end of update()
 
 		// ------------- use the edge coordinates ----------------------------
@@ -560,17 +577,26 @@ public class WavefrontLoader {
 			return largest;
 		} // end of getLargest()
 
+		public void addNumVerts() {
+			numVerts++;
+		}
+
 		public Tuple3 getCenter() {
-			float xc = (rightPt + leftPt) / 2.0f;
-			float yc = (topPt + bottomPt) / 2.0f;
-			float zc = (nearPt + farPt) / 2.0f;
+			float xc = (centerX) / (float)numVerts;
+			float yc = (centerY) / (float)numVerts;
+			float zc = (centerZ) / (float)numVerts;
 			return new Tuple3(xc, yc, zc);
 		} // end of getCenter()
 
 		public float[] getCenter3f(){
-			float xc = (rightPt + leftPt) / 2.0f;
-			float yc = (topPt + bottomPt) / 2.0f;
-			float zc = (nearPt + farPt) / 2.0f;
+			float xc = (centerX) / (float)numVerts;
+			float yc = (centerY) / (float)numVerts;
+			float zc = (centerZ) / (float)numVerts;
+
+
+			Log.i("wfl", "sum of coordinates: " + centerX + " " + centerY + " " + centerZ);
+			Log.i("wft", "num of vertices: " + numVerts);
+			Log.i("wfl", "center coordinates: " + xc + " " + yc + " " + zc);
 			return new float[] {xc, yc, zc};
 		}
 

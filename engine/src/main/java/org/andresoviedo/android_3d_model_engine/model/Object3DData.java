@@ -768,7 +768,8 @@ public class Object3DData {
 	 * maxSize.
 	 */
 	{
-		// calculate a scale factor
+
+//		// calculate a scale factor
 //		float scaleFactor = 1.0f;
 //		float largest = modelDimensions.getLargest();
 //		// System.out.println("Largest dimension: " + largest);
