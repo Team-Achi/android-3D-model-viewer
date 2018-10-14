@@ -96,64 +96,6 @@ public class ColladaLoader {
 		return new Object[]{modelData,ret};
 	}
 
-	public static void populateAnimatedModel(URL url, List<Object3DData> datas, AnimatedModelData modelData){
-
-		for (int i=0; i<datas.size(); i++) {
-			Object3DData data = datas.get(i);
-
-			// Parse all facets...
-			double[] normal = new double[3];
-			double[][] vertices = new double[3][3];
-			int normalCounter = 0, vertexCounter = 0;
-
-			FloatBuffer normalsBuffer = data.getVertexNormalsArrayBuffer();
-			FloatBuffer vertexBuffer = data.getVertexArrayBuffer();
-			IntBuffer indexBuffer = data.getDrawOrder();
-
-			WavefrontLoader.ModelDimensions modelDimensions = data.getDimensions();
-
-			MeshData meshData = modelData.getMeshData().get(i);
-
-			boolean first = true;
-			for (int counter = 0; counter < meshData.getVertices().length - 3; counter += 3) {
-
-				// update model dimensions
-				if (first) {
-					modelDimensions.set(meshData.getVertices()[counter], meshData.getVertices()[counter + 1], meshData.getVertices()[counter + 2]);
-					first = false;
-				}
-				modelDimensions.update(meshData.getVertices()[counter], meshData.getVertices()[counter + 1], meshData.getVertices()[counter + 2]);
-
-			}
-
-			Log.i("ColladaLoaderTask", "Building 3D object '"+meshData.getId()+"'...");
-			data.setId(meshData.getId());
-			vertexBuffer.put(meshData.getVertices());
-			normalsBuffer.put(meshData.getNormals());
-			data.setVertexColorsArrayBuffer(meshData.getColorsBuffer());
-			indexBuffer.put(meshData.getIndices());
-			data.setFaces(new WavefrontLoader.Faces(vertexBuffer.capacity() / 3));
-			data.setDrawOrder(indexBuffer);
-
-			// Load skeleton and animation
-			AnimatedModel data3D = (AnimatedModel) data;
-			try {
-
-				// load skeleton
-				SkeletonData skeletonData = modelData.getJointsData();
-				Joint headJoint = createJoints(skeletonData.headJoint);
-				data3D.setRootJoint(headJoint, skeletonData.jointCount, skeletonData.boneCount, false);
-
-				// load animation
-				Animation animation = loadAnimation(url.openStream());
-				data3D.doAnimation(animation);
-
-			} catch (Exception e) {
-				Log.e("ColladaLoader", "Problem loading model animation' " + e.getMessage(), e);
-				data3D.doAnimation(null);
-			}
-		}
-	}
 
 	public static AnimatedModelData loadColladaModel(InputStream colladaFile, int maxWeights) {
 		XmlNode node = null;
