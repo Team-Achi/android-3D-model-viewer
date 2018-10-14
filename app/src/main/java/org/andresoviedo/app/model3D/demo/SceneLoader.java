@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.SystemClock;
 import android.util.Log;
 
-import org.andresoviedo.android_3d_model_engine.animation.Animator;
 import org.andresoviedo.android_3d_model_engine.model.Camera;
 import org.andresoviedo.android_3d_model_engine.services.Object3DBuilder;
 import org.andresoviedo.android_3d_model_engine.model.Object3DData;
@@ -101,7 +100,6 @@ public class SceneLoader implements LoaderTask.Callback {
     /**
      * Animator
      */
-    private Animator animator = new Animator();
     /**
      * Did the user touched the model for the first time?
      */
@@ -193,13 +191,6 @@ public class SceneLoader implements LoaderTask.Callback {
         }
 
         if (objects.isEmpty()) return;
-
-        if (animateModel) {
-            for (int i=0; i<objects.size(); i++) {
-                Object3DData obj = objects.get(i);
-                animator.update(obj);
-            }
-        }
     }
 
     private void animateLight() {
