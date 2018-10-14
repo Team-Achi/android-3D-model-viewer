@@ -202,14 +202,14 @@ public class SceneLoader implements LoaderTask.Callback {
      */
     public void onDrawFrame() {
 
-        animateLight();
+//        animateLight();
 
         // smooth camera transition
         camera.animate();
 
         // initial camera animation. animate if user didn't touch the screen
         if (!userHasInteracted) {
-            animateCamera();
+//            animateCamera();
         }
 
         if (objects.isEmpty()) return;
