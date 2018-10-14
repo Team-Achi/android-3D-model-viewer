@@ -203,18 +203,6 @@ public class Camera {
 			Log.i("Camera", "Out of scene bounds");
 			return true;
 		}
-		/*List<Object3DData> objects = scene.getObjects();
-		for (int i = 0; objects != null && i < objects.size(); i++) {
-			BoundingBoxBuilder boundingBox = objects.get(i).getBoundingBox();
-			// Log.d("Camera","BoundingBoxBuilder? "+boundingBox);
-			if (boundingBox != null && boundingBox.insideBounds(
-					buffer[0] / buffer[3]
-					, buffer[1] / buffer[3]
-					, buffer[2] / buffer[3] )) {
-				Log.i("Camera", "Inside bounds of '" + objects.get(i).getId() + "'");
-				return true;
-			}
-		}*/
 		return false;
 	}
 

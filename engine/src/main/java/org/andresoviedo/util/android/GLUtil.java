@@ -76,7 +76,7 @@ public final class GLUtil {
 	 * </p>
 	 * 
 	 * @param type
-	 *            - Vertex or fragment shader type.
+	 *            - Vertexx or fragment shader type.
 	 * @param shaderCode
 	 *            - String containing the shader code.
 	 * @return - Returns an id for the shader.
