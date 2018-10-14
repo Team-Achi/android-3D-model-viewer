@@ -86,18 +86,18 @@ public class ModelActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.model_toggle_lights:
-                scene.toggleLighting();
-                break;
-            case R.id.model_load_texture:
-                Intent target = ContentUtils.createGetContentIntent("image/*");
-                Intent intent = Intent.createChooser(target, "Select a file");
-                try {
-                    startActivityForResult(intent, REQUEST_CODE_LOAD_TEXTURE);
-                } catch (ActivityNotFoundException e) {
-                    // The reason for the existence of aFileChooser
-                }
-                break;
+//            case R.id.model_toggle_lights:
+//                scene.toggleLighting();
+//                break;
+//            case R.id.model_load_texture:
+//                Intent target = ContentUtils.createGetContentIntent("image/*");
+//                Intent intent = Intent.createChooser(target, "Select a file");
+//                try {
+//                    startActivityForResult(intent, REQUEST_CODE_LOAD_TEXTURE);
+//                } catch (ActivityNotFoundException e) {
+//                    // The reason for the existence of aFileChooser
+//                }
+//                break;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -4,26 +4,19 @@ import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.andresoviedo.android_3d_model_engine.animation.Animator;
-import org.andresoviedo.android_3d_model_engine.collision.CollisionDetection;
 import org.andresoviedo.android_3d_model_engine.model.Camera;
 import org.andresoviedo.android_3d_model_engine.services.Object3DBuilder;
 import org.andresoviedo.android_3d_model_engine.model.Object3DData;
 import org.andresoviedo.android_3d_model_engine.services.LoaderTask;
-import org.andresoviedo.android_3d_model_engine.services.collada.ColladaLoaderTask;
-import org.andresoviedo.android_3d_model_engine.services.stl.STLLoaderTask;
-import org.andresoviedo.android_3d_model_engine.services.wavefront.WavefrontLoaderTask;
 import org.andresoviedo.app.model3D.view.ModelActivity;
-import org.andresoviedo.app.model3D.view.ModelRenderer;
 import org.andresoviedo.util.android.ContentUtils;
 import org.andresoviedo.util.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
